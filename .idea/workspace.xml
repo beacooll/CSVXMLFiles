@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd0e54ac-2698-4cdd-9702-18bfebb720f3" name="Changes" comment="csv file completed">
+    <list default="true" id="cd0e54ac-2698-4cdd-9702-18bfebb720f3" name="Changes" comment="xml file completed">
       <change afterPath="$PROJECT_DIR$/src/address.csv" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/address.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/XMLFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/CSVFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/CSVFile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/XMLFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/XMLFile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,12 +77,21 @@
       <option name="project" value="LOCAL" />
       <updated>1733485431420</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="xml file completed">
+      <option name="closed" value="true" />
+      <created>1733490735966</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733490735966</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="чтото сделано" />
     <MESSAGE value="csv file completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="csv file completed" />
+    <MESSAGE value="xml file completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="xml file completed" />
   </component>
 </project>

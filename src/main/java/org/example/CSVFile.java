@@ -12,11 +12,11 @@ import java.util.Map;
 public class CSVFile {
     private HashMap<Address, Integer> addressBook = new HashMap<>();
 
-    public CSVFile(){
+    public CSVFile(String path){
         this.addressBook = new HashMap<>();
 
         long startTime = System.currentTimeMillis();
-        readCSV();
+        readCSV(path);
         long Time1 = System.currentTimeMillis() - startTime;
 
         startTime = System.currentTimeMillis();
@@ -37,10 +37,8 @@ public class CSVFile {
         System.out.println("Время обработки CSV-файла: " + (Time1 + Time2 + Time3) + " миллисекунд");
     }
 
-    private void readCSV() {
-        Path path = Paths.get("src", "address.csv");
-
-        try (BufferedReader csv = new BufferedReader(new FileReader(path.toString()))) {
+    private void readCSV(String path) {
+        try (BufferedReader csv = new BufferedReader(new FileReader(path))) {
             String address;
             csv.readLine();
             while ((address = csv.readLine()) != null) {

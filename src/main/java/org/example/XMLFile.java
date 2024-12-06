@@ -18,11 +18,11 @@ import java.util.Map;
 public class XMLFile {
     private HashMap<Address, Integer> addressBook = new HashMap<>();
 
-    public XMLFile(){
+    public XMLFile(String path){
         this.addressBook = new HashMap<>();
 
         long startTime = System.currentTimeMillis();
-        readXML();
+        readXML(path);
         long Time1 = System.currentTimeMillis() - startTime;
 
         startTime = System.currentTimeMillis();
@@ -43,13 +43,13 @@ public class XMLFile {
         System.out.println("Время обработки CSV-файла: " + (Time1 + Time2 + Time3) + " миллисекунд");
     }
 
-    private void readXML(){
-        Path path = Paths.get("src", "address.xml");
+    private void readXML(String path){
+
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            Document document = builder.parse(path.toString());
+            Document document = builder.parse(path);
             document.getDocumentElement().normalize();
 
             NodeList nodeList = document.getElementsByTagName("item");
