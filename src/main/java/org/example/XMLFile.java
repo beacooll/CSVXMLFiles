@@ -5,71 +5,44 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 public class XMLFile {
     private HashMap<Address, Integer> addressBook = new HashMap<>();
 
-    public XMLFile(String path){
+    public XMLFile(String path) throws IOException, ParserConfigurationException, SAXException {
         this.addressBook = new HashMap<>();
 
-        long startTime = System.currentTimeMillis();
-        readXML(path);
-        long Time1 = System.currentTimeMillis() - startTime;
-
-        startTime = System.currentTimeMillis();
-        displayDuplicateAddresses();
-        long Time2 = System.currentTimeMillis() - startTime;
-
-        startTime = System.currentTimeMillis();
-        displayFloorsByCity();
-        long Time3 = System.currentTimeMillis() - startTime;
-
-        System.out.println();
-        System.out.println("Время чтения CSV-файла: " + (Time1) + " миллисекунд");
-
-        System.out.println();
-        System.out.println("Время поиска дубликатов CSV-файла: " + (Time2) + " миллисекунд");
-
-        System.out.println();
-        System.out.println("Время обработки CSV-файла: " + (Time1 + Time2 + Time3) + " миллисекунд");
+        makeXML(path);
     }
 
-    private void readXML(String path){
-
+    private void makeXML(String path){
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
+            long startTime = System.currentTimeMillis();
+            readXML(path);
+            long Time1 = System.currentTimeMillis() - startTime;
 
-            Document document = builder.parse(path);
-            document.getDocumentElement().normalize();
+            startTime = System.currentTimeMillis();
+            displayDuplicateAddresses();
+            long Time2 = System.currentTimeMillis() - startTime;
 
-            NodeList nodeList = document.getElementsByTagName("item");
+            startTime = System.currentTimeMillis();
+            displayFloorsByCity();
+            long Time3 = System.currentTimeMillis() - startTime;
 
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node node = nodeList.item(i);
+            System.out.println();
+            System.out.println("Время чтения CSV-файла: " + (Time1) + " миллисекунд");
 
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
+            System.out.println();
+            System.out.println("Время поиска дубликатов CSV-файла: " + (Time2) + " миллисекунд");
 
-                    String city = element.getAttribute("city");
-                    String street = element.getAttribute("street");
-                    int houseNumber = Integer.parseInt(element.getAttribute("house"));
-                    int floor = Integer.parseInt(element.getAttribute("floor"));
-
-                    Address newAddress = new Address(city, street, houseNumber, floor);
-                    addressBook.put(newAddress, addressBook.getOrDefault(newAddress, 0) + 1);
-
-                }
-            }
+            System.out.println();
+            System.out.println("Время обработки CSV-файла: " + (Time1 + Time2 + Time3) + " миллисекунд\n");
         } catch (IOException e) {
             System.err.println("Ошибка при чтении файла: " + e.getMessage());
         } catch (ParserConfigurationException e) {
@@ -78,6 +51,33 @@ public class XMLFile {
             System.err.println("Ошибка при парсинге XML: " + e.getMessage());
         } catch (NumberFormatException e) {
             System.err.println("Ошибка преобразования этажа или дома в число: " + e.getMessage());
+        }
+
+    }
+
+    private void readXML(String path) throws IOException, ParserConfigurationException, SAXException, NumberFormatException{
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        Document document = builder.parse(path);
+        document.getDocumentElement().normalize();
+
+        NodeList nodeList = document.getElementsByTagName("item");
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+
+                String city = element.getAttribute("city");
+                String street = element.getAttribute("street");
+                int houseNumber = Integer.parseInt(element.getAttribute("house"));
+                int floor = Integer.parseInt(element.getAttribute("floor"));
+
+                Address newAddress = new Address(city, street, houseNumber, floor);
+                addressBook.put(newAddress, addressBook.getOrDefault(newAddress, 0) + 1);
+            }
         }
     }
     public void displayDuplicateAddresses() {

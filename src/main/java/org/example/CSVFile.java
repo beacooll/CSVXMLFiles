@@ -3,8 +3,6 @@ package org.example;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,44 +10,50 @@ import java.util.Map;
 public class CSVFile {
     private HashMap<Address, Integer> addressBook = new HashMap<>();
 
-    public CSVFile(String path){
+    public CSVFile(String path) throws IOException, NumberFormatException{
         this.addressBook = new HashMap<>();
 
-        long startTime = System.currentTimeMillis();
-        readCSV(path);
-        long Time1 = System.currentTimeMillis() - startTime;
-
-        startTime = System.currentTimeMillis();
-        displayDuplicateAddresses();
-        long Time2 = System.currentTimeMillis() - startTime;
-
-        startTime = System.currentTimeMillis();
-        displayFloorsByCity();
-        long Time3 = System.currentTimeMillis() - startTime;
-
-        System.out.println();
-        System.out.println("Время чтения CSV-файла: " + (Time1) + " миллисекунд");
-
-        System.out.println();
-        System.out.println("Время поиска дубликатов CSV-файла: " + (Time2) + " миллисекунд");
-
-        System.out.println();
-        System.out.println("Время обработки CSV-файла: " + (Time1 + Time2 + Time3) + " миллисекунд");
+        makeCSV(path);
     }
 
-    private void readCSV(String path) {
-        try (BufferedReader csv = new BufferedReader(new FileReader(path))) {
-            String address;
-            csv.readLine();
-            while ((address = csv.readLine()) != null) {
-                String[] arr = address.split(";");
-                Address newAddress = new Address(arr[0].trim(), arr[1].trim(), Integer.parseInt(arr[2].trim()), Integer.parseInt(arr[3].trim()));
-                addressBook.put(newAddress, addressBook.getOrDefault(newAddress, 0) + 1);
-            }
-        } catch (IOException e) {
+    private void makeCSV(String path){
+        try {
+            long startTime = System.currentTimeMillis();
+            readCSV(path);
+            long Time1 = System.currentTimeMillis() - startTime;
+
+            startTime = System.currentTimeMillis();
+            displayDuplicateAddresses();
+            long Time2 = System.currentTimeMillis() - startTime;
+
+            startTime = System.currentTimeMillis();
+            displayFloorsByCity();
+            long Time3 = System.currentTimeMillis() - startTime;
+
+            System.out.println();
+            System.out.println("Время чтения CSV-файла: " + (Time1) + " миллисекунд");
+
+            System.out.println();
+            System.out.println("Время поиска дубликатов CSV-файла: " + (Time2) + " миллисекунд");
+
+            System.out.println();
+            System.out.println("Время обработки CSV-файла: " + (Time1 + Time2 + Time3) + " миллисекунд\n");
+        }catch (IOException e) {
             System.err.println("Ошибка при чтении файла: " + e.getMessage());
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             System.err.println("Ошибка преобразования этажа или дома в число: " + e.getMessage());
+        }
+    }
+
+    private void readCSV(String path)  throws IOException, NumberFormatException{
+        BufferedReader csv = new BufferedReader(new FileReader(path));
+        String address;
+        csv.readLine();
+        while ((address = csv.readLine()) != null) {
+            String[] arr = address.split(";");
+            Address newAddress = new Address(arr[0].trim(), arr[1].trim(), Integer.parseInt(arr[2].trim()), Integer.parseInt(arr[3].trim()));
+            addressBook.put(newAddress, addressBook.getOrDefault(newAddress, 0) + 1);
         }
     }
     public void displayDuplicateAddresses() {
